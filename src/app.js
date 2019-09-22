@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import DependencyInjectionMiddleware from './middlewares/di/DependencyInjectionMiddleware';
 import Container from './middlewares/di/Container';
 import callController from './middlewares/callController';
+import allowCors from './middlewares/allowCors';
 import authMiddleware from './middlewares/auth';
 import * as errors from './middlewares/errors';
 
@@ -40,6 +41,7 @@ const firebaseApp   = firebase.apps.length == 0 ? firebase.initializeApp({
 container.set('firebase', firebaseApp);
 //
 
+main.use(allowCors);
 main.use('/api/v1', app);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
