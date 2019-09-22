@@ -16,11 +16,11 @@ custom:
     packExternalModulesMaxBuffer: 1000000
     packagerOptions:
       scripts:
-        - npm rebuild grpc --target=10 --target_arch=x64 --target_platform=linux --target_libc=glibc
+        - npm rebuild grpc --target=8.10.0 --target_arch=x64 --target_platform=linux --target_libc=glibc
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs8.10
   stage: dev
   region: us-east-1
   environment: ${file(env.yml):${self:provider.stage}}

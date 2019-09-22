@@ -20,8 +20,8 @@ module.exports = {
     },
     devtool: 'nosources-source-map',
     externals: [
-        'firebase',
-        'firebase-admin'
+        'firebase-admin',
+        'firebase'
     ],
     target: 'node',
     mode: 'production',

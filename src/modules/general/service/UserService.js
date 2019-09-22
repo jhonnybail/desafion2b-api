@@ -1,6 +1,6 @@
 import User from '../User';
 import Service from '../../generic/Service';
-import { auth } from 'firebase';
+//import { auth } from 'firebase';
 
 export default class UserService extends Service  {
 
@@ -23,7 +23,7 @@ export default class UserService extends Service  {
     auth = async (method, params) => {
         
         if(method === 'google'){
-            let credential = auth.GoogleAuthProvider.credential(
+            /*let credential = auth.GoogleAuthProvider.credential(
                     params.id_token,
                     params.access_token);
             let user    = (await this.firebase.auth().signInWithCredential(credential)).additionalUserInfo.profile;
@@ -46,7 +46,7 @@ export default class UserService extends Service  {
                 });
             }
             
-            return await this.save(model);
+            return await this.save(model);*/
         }
         
         return false;

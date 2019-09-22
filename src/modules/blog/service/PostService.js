@@ -1,4 +1,3 @@
-import cloudinary from 'cloudinary';
 import Service from '../../generic/Service';
 
 export default class PostService extends Service  {
