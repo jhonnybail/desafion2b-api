@@ -1,0 +1,42 @@
+{
+  "name": "desafion2b-api",
+  "version": "1.1.0",
+  "description": "Desafio passado para realizar com Node.js Serverless",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "serverless --config serverless.dev.yml offline start",
+    "deploy": "SLS_DEBUG=* serverless  --config serverless.prod.yml deploy",
+    "lint": "node_modules/.bin/eslint .",
+    "test": "NODE_ENV=test node_modules/.bin/mocha --recursive --require babel-core/register"
+  },
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AnomalyInnovations/serverless-nodejs-starter.git"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-env": "^7.6.0",
+    "babel-loader": "^8.0.6",
+    "copy-webpack-plugin": "^5.0.4",
+    "eslint": "^6.4.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-mocha": "^6.1.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "serverless-bundle": "^1.2.2",
+    "serverless-offline": "^5.3.3",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cloudinary": "^1.15.0",
+    "express": "^4.17.1",
+    "firebase": "^6.6.1",
+    "firebase-admin": "^8.5.0",
+    "serverless-http": "^2.3.0"
+  }
+}

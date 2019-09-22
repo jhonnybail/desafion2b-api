@@ -1,0 +1,34 @@
+service: desafion2b-api
+
+plugins:
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.prod.config.js
+    includeModules: true
+    packager: 'yarn'
+    packExternalModulesMaxBuffer: 1000000000
+    packagerOptions:
+      scripts:
+        - npm rebuild grpc --target=10 --target_arch=x64 --target_platform=linux --target_libc=glibc
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: prod
+  region: us-east-1
+  environment: ${file(env.yml):${self:provider.stage}}
+
+functions:
+  blog:
+    handler: src/server.run
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true

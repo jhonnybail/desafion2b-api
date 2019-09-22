@@ -1,0 +1,39 @@
+service: desafion2b-api
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+custom:
+  custom:
+  serverless-offline:
+    host: '0.0.0.0'
+    port: 8082
+  webpack:
+    webpackConfig: ./webpack.dev.config.js
+    includeModules: true
+    packager: 'yarn'
+    packExternalModulesMaxBuffer: 1000000
+    packagerOptions:
+      scripts:
+        - npm rebuild grpc --target=10 --target_arch=x64 --target_platform=linux --target_libc=glibc
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: dev
+  region: us-east-1
+  environment: ${file(env.yml):${self:provider.stage}}
+
+functions:
+  blog:
+    handler: src/server.run
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
