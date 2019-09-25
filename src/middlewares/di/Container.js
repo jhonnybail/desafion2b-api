@@ -8,6 +8,7 @@ export default class Container {
 
     set (name, value) {
         this._schema[name] = value;
+        delete this._services[name];
     }
 
     get (name) {

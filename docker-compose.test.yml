@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  
+  teste:
+    build: .docker/build/node
+    volumes: 
+      - ./:/usr/src/app/
+    entrypoint: ["sh", "/usr/test.sh"]

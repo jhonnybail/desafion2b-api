@@ -7,7 +7,7 @@
     "start": "serverless --config serverless.dev.yml offline start",
     "deploy": "SLS_DEBUG=* serverless  --config serverless.prod.yml deploy",
     "lint": "node_modules/.bin/eslint .",
-    "test": "NODE_ENV=test node_modules/.bin/mocha --recursive --require babel-core/register"
+    "test": "serverless --config serverless.dev.yml invoke test -p ./tests -ui bdd --recursive --compilers js:@babel/register"
   },
   "author": "",
   "license": "MIT",
@@ -20,14 +20,18 @@
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
     "@babel/preset-env": "^7.6.0",
+    "@babel/register": "^7.6.2",
     "babel-loader": "^8.0.6",
+    "chai": "^4.2.0",
     "copy-webpack-plugin": "^5.0.4",
     "eslint": "^6.4.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-mocha": "^6.1.1",
     "eslint-plugin-promise": "^4.2.1",
+    "mocha": "^6.2.0",
     "serverless-bundle": "^1.2.2",
+    "serverless-mocha-plugin": "^1.11.0",
     "serverless-offline": "^5.3.3",
     "webpack-node-externals": "^1.7.2"
   },

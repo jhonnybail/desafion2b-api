@@ -1,6 +1,7 @@
 service: desafion2b-api
 
 plugins:
+  - serverless-mocha-plugin
   - serverless-webpack
   - serverless-offline
 
@@ -16,7 +17,7 @@ custom:
     packExternalModulesMaxBuffer: 1000000
     packagerOptions:
       scripts:
-        - npm rebuild grpc --target=8.10.0 --target_arch=x64 --target_platform=linux --target_libc=glibc
+        - npm rebuild grpc --target=8.1.0 --target_arch=x64 --target_platform=linux --target_libc=glibc
 
 provider:
   name: aws
