@@ -39,6 +39,25 @@ Authorization: Basic {credenciais em base 64 no formato id:access_token}
 ```
 `id` é o identificador do usuário gerado no registro e `access_token` é o token de acesso gerado ao realizar autenticação na Google.
 
+## Docker
+Há possibilidade de trabalhar com o desenvolvimento em Docker.
+
+- Executar
+```
+docker-compose up -d
+```
+
+- Testar
+```
+docker-compose -f docker-compose.test.yml up
+```
+
+- Deploy AWS
+```
+docker-compose -f docker-compose.deploy.yml up
+```
+**Atenção:** Para deploy, será necessário infomar a chave de acesso ao AWS no arquivo .env.
+
 ## [Demo](https://jhonnybail.github.io/desafion2b/)
 
 Foi disponibizalado a interface gráfica do projeto que se utiliza destes serviços:
