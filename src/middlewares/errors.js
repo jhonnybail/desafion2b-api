@@ -12,6 +12,9 @@ export const parser = (err, req, res, next) => {
         case 'access-denied':
             err.status = 403;
             break;
+        case "Requisição sem autorização.":
+            err.status = 401;
+            break;
         default:
             err.status = 400;
     }
@@ -22,11 +25,13 @@ export const parser = (err, req, res, next) => {
 export const developmentError = (err, req, res, next) => {
     
     if(err){
-        console.error(err.status || 500);
-        console.error(err.message);
-        console.error(err.stack);
-        console.log(req.headers);
-        console.log(req.body);
+        
+        //if(err.status === 400){
+        //    console.error(err.message);
+        //    console.error(err.stack);
+        //    console.log(req.headers);
+        //    console.log(req.body);
+        //}
     
         if (typeof err === 'string') {
             err = {

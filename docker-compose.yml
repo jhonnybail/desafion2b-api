@@ -6,3 +6,5 @@ services:
     build: .docker/build/node
     volumes: 
       - ./:/usr/src/app/
+    ports:
+      - 8082

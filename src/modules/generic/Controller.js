@@ -41,7 +41,7 @@ export default class Controller {
         if(!data) throw Error("Data is not was send.");
         let obj = new this.model;
         obj.$setJson(data);
-        return this.response.json({success: true, data: await this.service.save(obj)});
+        return this.response.json({success: true, data: await this.service.save(obj)}).status(201);
     };
 
     async put (id, data) {

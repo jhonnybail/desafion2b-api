@@ -43,6 +43,18 @@ container.set('firebase', firebaseApp);
 
 main.use(allowCors);
 main.use('/api/v1', app);
+
+
+main.get('/', async (req, res, next) => {
+    const postService = container.get('blog.service.Post');
+    try{
+        let results = await postService.find();
+        res.json({success: true, data: results}).status(200);
+    }catch(error){
+        next(error);
+    }
+});
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -64,7 +76,6 @@ app.post('/auth', async (req, res, next) => {
 });
 
 app.use(authMiddleware);
-
 app.all('(/:param1/:value1)?(/:param2/:value2)?(/:param3/:value3)?/:controller', callController);
 app.all('(/:param1/:value1)?(/:param2/:value2)?(/:param3/:value3)?/:controller/:id', callController);
 //

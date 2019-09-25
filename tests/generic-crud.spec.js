@@ -1,23 +1,14 @@
-import { expect } from "chai";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 import * as firebaseAdmin from 'firebase-admin';
 import Model from '../src/modules/generic/Model';
 import Repository from '../src/modules/generic/Repository';
 
-let admin = firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert({
-      type: process.env.FIREBASEADMIN_TYPE,
-      project_id: process.env.FIREBASE_PROJECT_ID,
-      private_key_id: process.env.FIREBASEADMIN_PRIVATE_KEY_ID,
-      private_key: process.env.FIREBASEADMIN_PRIVATE_KEY,
-      client_email: process.env.FIREBASEADMIN_CLIENT_EMAIL,
-      client_id: process.env.FIREBASEADMIN_CLIENT_ID,
-      auth_uri: process.env.FIREBASEADMIN_AUTH_URI,
-      token_uri: process.env.FIREBASEADMIN_TOKEN_URI,
-      auth_provider_x509_cert_url: process.env.FIREBASEADMIN_AUTH_PROVIDER_X509_CERT_URL,
-      client_x509_cert_url: process.env.FIREBASEADMIN_CLIENT_X509_CERT_URL
-  }),
-  databaseURL: process.env.FIREBASE_DATABASEURL
-});
+chai.use(chaiAsPromised);
+let { expect } = chai;
+chai.should();
+
+let admin;
 let Teste;
 let repository;
 
@@ -90,7 +81,7 @@ describe('Generic CRUD', () => {
 
     it('Create repository', done => {
       
-      admin = firebaseAdmin.initializeApp({
+      admin = firebaseAdmin.apps.length === 0 ? firebaseAdmin.initializeApp({
         credential: firebaseAdmin.credential.cert({
             type: process.env.FIREBASEADMIN_TYPE,
             project_id: process.env.FIREBASE_PROJECT_ID,
@@ -104,33 +95,79 @@ describe('Generic CRUD', () => {
             client_x509_cert_url: process.env.FIREBASEADMIN_CLIENT_X509_CERT_URL
         }),
         databaseURL: process.env.FIREBASE_DATABASEURL
-      });
+      }) : firebaseAdmin.apps[0];
 
-      repository = new Repository(Teste);
+      repository = new Repository(new Teste);
 
-      expect(repository).to.have.includes(['insert', 'find', 'update', 'findById', 'delete']);
+      expect(repository).to.have.a.property('insert');
+      expect(repository).to.have.a.property('find');
+      expect(repository).to.have.a.property('findById');
+      expect(repository).to.have.a.property('update');
+      expect(repository).to.have.a.property('remove');
       expect(new (repository.model)).to.be.an.instanceof(Teste);
 
       done();
 
     });
+    
+    it('Return error when insert data without model', async () => {
+      await repository.insert({name: 'Jonathan'}).should.be.rejectedWith(TypeError);
+    });
 
-    it('Insert data', done => {
+    it('Insert data', async () => {
       
-      expect(() => repository.insert({name: 'Jonathan'})).to.throw(Error);
-
       let data = new Teste;
       data.name = 'Jonathan';
 
-      expect(data.$id()).to.be.empty;
+      expect(data.$id()).to.be.undefined;
 
-      let data = repository.insert(data);
+      data = await repository.insert(data);
 
       expect(data).to.be.an.instanceof(Teste);
-      expect(data).to.have.an.instanceof(Teste);
+      expect(data.$id()).to.not.be.empty;
 
+    });
 
-      done();
+    it('Find data', async () => {
+      
+      let results = await repository.find();
+      
+      expect(results).to.be.an('object').that.to.have.a.property('total').that.to.be.at.least(1);
+      expect(results).to.have.a.property('results').that.to.be.an('array');
+      expect(results.results[0]).to.be.instanceof(Teste);
+      
+      let model = await repository.findById(results.results[0].$id());
+      
+      expect(model).to.be.instanceof(Teste);
+      
+      await repository.findById(0).should.be.rejectedWith(Error);
+
+    });
+
+    it('Update data', async () => {
+      
+      let results = await repository.find();
+      results.results[0].name = "Débora";
+      
+      let model = await repository.update(results.results[0]) ;
+      
+      expect(model).to.be.instanceof(Teste);
+      expect(model).to.be.a.property('name', 'Débora');
+      
+      await repository.update({id: model.$id(), name: 'Débora'}).should.be.rejectedWith(Error);
+
+    });
+
+    it('Remove data', async () => {
+      
+      let results           = await repository.find();
+      let [model, ...list]  = results.results;
+      
+      await repository.remove({id: model.$id()}).should.be.rejectedWith(Error);
+      await repository.remove(model).should.not.be.rejectedWith(Error);
+      await repository.findById(model.$id()).should.be.rejectedWith(Error);
+      
+      list.forEach(async v => repository.remove(v).should.not.be.rejectedWith(Error));
 
     });
 

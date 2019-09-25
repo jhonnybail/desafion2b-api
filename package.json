@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "serverless --config serverless.dev.yml offline start",
-    "deploy": "SLS_DEBUG=* serverless  --config serverless.prod.yml deploy",
+    "deploy": "SLS_DEBUG=* yarn test && serverless --config serverless.prod.yml deploy",
     "lint": "node_modules/.bin/eslint .",
     "test": "serverless --config serverless.dev.yml invoke test -p ./tests -ui bdd --recursive --compilers js:@babel/register"
   },
@@ -23,6 +23,8 @@
     "@babel/register": "^7.6.2",
     "babel-loader": "^8.0.6",
     "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "chai-http": "^4.3.0",
     "copy-webpack-plugin": "^5.0.4",
     "eslint": "^6.4.0",
     "eslint-config-airbnb": "^18.0.1",

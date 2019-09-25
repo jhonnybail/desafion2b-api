@@ -6,7 +6,10 @@ services:
     build: .docker/build/node
     volumes: 
       - ./:/usr/src/app/
-    entrypoint: ["sh", "/usr/test.sh"]
+    entrypoint: ["sh", "/usr/deploy.sh"]
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     networks:
       - default
     

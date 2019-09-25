@@ -11,7 +11,7 @@ describe('Firebase SDK', () => {
 
     it('Should be connect to Firebase', done => {
       
-      admin = firebaseAdmin.initializeApp({
+      admin = firebaseAdmin.apps.length === 0 ? firebaseAdmin.initializeApp({
           credential: firebaseAdmin.credential.cert({
               type: process.env.FIREBASEADMIN_TYPE,
               project_id: process.env.FIREBASE_PROJECT_ID,
@@ -25,7 +25,7 @@ describe('Firebase SDK', () => {
               client_x509_cert_url: process.env.FIREBASEADMIN_CLIENT_X509_CERT_URL
           }),
           databaseURL: process.env.FIREBASE_DATABASEURL
-      });
+      }) : firebaseAdmin.apps[0];
 
       expect(admin).to.be.an.property('firestore').that.to.be.a('function');
       expect(admin.firestore()).to.be.an('object');
@@ -40,14 +40,14 @@ describe('Firebase SDK', () => {
 
     it('Should be connect to Firebase', done => {
       
-      client = firebase.initializeApp({
+      client = firebase.apps.length === 0 ? firebase.initializeApp({
         apiKey: process.env.FIREBASECLIENT_APIKEY,
         authDomain: process.env.FIREBASECLIENT_AUTHDOMAIN,
         databaseURL: process.env.FIREBASE_DATABASEURL,
         projectId: process.env.FIREBASE_PROJECT_ID,
         storageBucket: process.env.FIREBASE_STORAGEBUCKECT,
         messagingSenderId: process.env.FIREBASE_MESSAGINGSENDERID
-      });
+      }) : firebase.apps[0];
 
       expect(client).to.be.an.property('auth').that.to.be.a('function');
       expect(client.auth()).to.be.an('object');

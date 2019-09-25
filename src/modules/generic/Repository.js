@@ -1,10 +1,13 @@
 import { firestore } from 'firebase-admin';
+import Model from './Model';
 
 export default class Repository {
     model;
     db;
 
     constructor(model) {
+        if(!(model instanceof Model))
+            throw new TypeError("Instance model should be from Model.");
         this.model  = model.constructor;
         this.db     = firestore();
     };
@@ -32,6 +35,9 @@ export default class Repository {
     }
 
     async insert (model) {
+        if(!(model instanceof Model))
+            throw new TypeError("Instance model should be from Model.");
+            
         let collection  = await this.db.collection(this.model.collection);
         let document    = await collection.add(model.$getJson());
         model.$id(document.id);
@@ -39,12 +45,18 @@ export default class Repository {
     }
 
     async update (model) {
+        if(!(model instanceof Model))
+            throw new TypeError("Instance model should be from Model.");
+            
         let doc = this.db.collection(this.model.collection).doc(model.$id());
         doc.set(model.$getJson());
         return model;
     }
 
     async remove (model) {
+        if(!(model instanceof Model))
+            throw new TypeError("Instance model should be from Model.");
+            
         return await this.db.collection(this.model.collection).doc(model.$id()).delete();
     }
 

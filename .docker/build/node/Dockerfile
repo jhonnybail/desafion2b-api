@@ -12,4 +12,6 @@ COPY ./deploy.sh ./
 
 WORKDIR /usr/src/app
 
+EXPOSE 80 8080 8081 8082
+
 ENTRYPOINT ["sh", "/usr/start.sh"]
