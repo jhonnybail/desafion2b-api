@@ -44,17 +44,17 @@ Há possibilidade de trabalhar com o desenvolvimento em Docker.
 
 - Executar
 ```
-docker-compose up -d
+docker-compose run api
 ```
 
 - Testar
 ```
-docker-compose -f docker-compose.test.yml up
+docker-compose run test
 ```
 
 - Deploy AWS
 ```
-docker-compose -f docker-compose.deploy.yml up
+docker-compose run deploy
 ```
 **Atenção:** Para deploy, será necessário infomar a chave de acesso ao AWS no arquivo .env.
 
