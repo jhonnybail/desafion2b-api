@@ -44,7 +44,7 @@ Há possibilidade de trabalhar com o desenvolvimento em Docker.
 
 - Executar
 ```
-docker-compose run api
+docker-compose run --service-ports api
 ```
 
 - Testar
